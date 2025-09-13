@@ -1,6 +1,12 @@
 import streamlit as st
 from Bio.Seq import Seq
-from Bio.SeqUtils import GC
+try:
+    from Bio.SeqUtils import GC
+except ImportError:
+    from Bio.SeqUtils import gc_fraction
+    def GC(seq):  # Fallback for newer Biopython versions
+        return gc_fraction(seq) * 100
+
 from Bio.Restriction import RestrictionBatch, Analysis
 
 # Define a set of common restriction enzymes
